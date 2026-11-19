@@ -1,0 +1,25 @@
+// ============================================================================
+// Skylight: a glass-and-daylight theme for Flarum 2.
+//
+// Every rule hangs off html[data-sky], which the server stamps only for
+// visitors on Skylight (see src/ActiveTheme.php). Under Wardrobe, or beside
+// Bespoke, the stylesheet is therefore inert for everyone else.
+//
+// Colors come from Flarum's own custom properties (Skylight sets them for its
+// two schemes, then every rule reads them), so other extensions' components
+// inherit the theme without knowing about it.
+//
+// Import order is load-bearing: readability and phone are LAST, because an
+// unconditional rule of equal specificity beats a media-query rule before it.
+// ============================================================================
+
+@import 'forum/tokens.less';
+@import 'forum/sky.less';
+@import 'forum/shell.less';
+@import 'forum/list.less';
+@import 'forum/views.less';
+@import 'forum/discussion.less';
+@import 'forum/overlays.less';
+@import 'forum/studio.less';
+@import 'forum/readability.less';
+@import 'forum/phone.less';

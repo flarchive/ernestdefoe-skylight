@@ -1,0 +1,94 @@
+// ---------------------------------------------------------------------------
+// The discussion list (List view, the default): core's rows on one pane.
+// Rows are translucent fills, never blurred: 20 rows add no blur layer.
+// ---------------------------------------------------------------------------
+
+html[data-sky] .IndexPage-toolbar {
+  margin-bottom: 12px;
+}
+
+html[data-sky] .DiscussionList > .DiscussionList-discussions {
+  .sky-pane();
+  padding: 6px;
+  margin: 0;
+}
+html[data-sky] .DiscussionList-discussions:empty {
+  display: none;
+}
+
+// Core pulls each row 15px past the list on both sides (and pads it for the
+// controls); inside a pane, rows sit flush with it instead.
+html[data-sky] .DiscussionListItem {
+  border-radius: var(--sky-radius-sm);
+  margin: 0;
+  padding-right: 28px;
+}
+html[data-sky] .DiscussionList-discussions > li + li {
+  border-top: 1px solid var(--sky-hairline);
+}
+html[data-sky] .DiscussionListItem-content {
+  padding: var(--sky-row-y) 12px;
+  gap: var(--sky-gap);
+  align-items: center;
+}
+html[data-sky] .DiscussionListItem-title {
+  font-size: 1.05em;
+}
+html[data-sky] .DiscussionList:not(.DiscussionList--searchResults) .unread .DiscussionListItem-title {
+  color: var(--heading-color);
+  font-weight: 700;
+}
+// Unread: a small accent dot before the title.
+html[data-sky] .DiscussionList:not(.DiscussionList--searchResults) .unread .DiscussionListItem-title::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin: 0 8px 0.15em 0;
+  vertical-align: middle;
+  background: var(--primary-color);
+  box-shadow: 0 0 0 3px ~"color-mix(in srgb, var(--primary-color) 20%, transparent)";
+}
+html[data-sky] .DiscussionListItem-info {
+  font-size: 0.85em;
+}
+html[data-sky] .DiscussionListItem-stats-item {
+  color: var(--muted-color);
+}
+// Desktop only: on phones core shows the unread count in an accent bubble.
+@media @tablet-up {
+  html[data-sky] .unread .DiscussionListItem-stats-item {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
+}
+
+// The excerpt only shows on Cards (it is only sent then, too).
+html[data-sky] .DiscussionListItem-info .item-skylightExcerpt {
+  display: none;
+}
+
+html[data-sky] .DiscussionList-loadMore {
+  margin-top: 14px;
+}
+
+// ---- The view switch in the toolbar ----
+html[data-sky] .Skylight-viewSwitch {
+  display: inline-flex;
+  background: var(--control-bg);
+  border-radius: 999px;
+  padding: 2px;
+}
+html[data-sky] .Skylight-viewSwitch .Button {
+  border-radius: 999px;
+  background: transparent;
+  height: 32px;
+  width: 34px;
+  color: var(--control-color);
+}
+html[data-sky] .Skylight-viewSwitch .Button.on {
+  background: var(--sky-pane-strong);
+  color: var(--primary-color);
+  box-shadow: 0 1px 3px ~"rgba(0, 0, 0, .12)";
+}

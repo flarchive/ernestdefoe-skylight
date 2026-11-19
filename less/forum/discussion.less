@@ -1,0 +1,79 @@
+// ---------------------------------------------------------------------------
+// A discussion: the hero, each post on its own pane (no blur), the scrubber.
+// ---------------------------------------------------------------------------
+
+html[data-sky] .DiscussionHero {
+  padding: 30px 0 26px;
+}
+html[data-sky] .DiscussionHero-title {
+  color: var(--heading-color);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+// Posts: a pane each, the divider line replaced by the gap between panes.
+html[data-sky] .PostStream-item:has(+ .PostStream-item)::after {
+  display: none;
+}
+html[data-sky] .PostStream-item + .PostStream-item {
+  margin-top: var(--sky-gap);
+}
+html[data-sky] .PostStream-item > .CommentPost,
+html[data-sky] .PostStream-item > .ReplyPlaceholder {
+  .sky-pane();
+  padding: var(--post-padding);
+}
+html[data-sky] .PostStream-item > .CommentPost {
+  padding-bottom: 8px;
+}
+html[data-sky] .PostStream-item > .CommentPost.Post--hidden {
+  opacity: 0.85;
+}
+html[data-sky] .PostStream-item > .Post--event {
+  padding-left: var(--post-padding);
+}
+html[data-sky] .ReplyPlaceholder {
+  border: 1px solid var(--sky-pane-border);
+  margin-top: var(--sky-gap);
+  // Core pulls it 20px left of the posts; here it lines up with them.
+  margin-left: 0;
+  width: 100%;
+  color: var(--muted-color);
+}
+// A post you jumped to (a link, a mention) is ringed in the accent.
+html[data-sky] .PostStream-item > .Post.highlighted,
+html[data-sky] .PostStream-item > .Post.flash {
+  box-shadow: var(--sky-shadow), 0 0 0 2px ~"color-mix(in srgb, var(--primary-color) 45%, transparent)";
+}
+
+html[data-sky] .Post-body {
+  line-height: 1.65;
+}
+html[data-sky] .Post-body blockquote {
+  border-left: 3px solid var(--primary-color);
+  background: var(--control-bg);
+  border-radius: 0 var(--sky-radius-sm) var(--sky-radius-sm) 0;
+  color: var(--muted-color);
+}
+html[data-sky] .Post-body code,
+html[data-sky] .Post-body pre {
+  border-radius: 6px;
+}
+html[data-sky] .Post-header .item-user .username {
+  color: var(--heading-color);
+}
+
+// The scrubber: the handle in the accent. On desktop it is an open dropdown
+// menu, so it drops the dropdown's glass.
+html[data-sky] .Scrubber-bar {
+  background: var(--primary-color);
+}
+@media (min-width: 768px) {
+  html[data-sky] .PostStreamScrubber > .Dropdown-menu {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

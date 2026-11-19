@@ -1,0 +1,218 @@
+// ---------------------------------------------------------------------------
+// The member Studio: a side sheet on desktop, a bottom sheet on phones. The
+// backdrop is light, because the page behind it IS the preview.
+// ---------------------------------------------------------------------------
+
+html[data-sky] .Skylight-studio {
+  &.Modal { width: 400px; max-width: 100%; }
+  .Modal-header { text-align: left; padding: 18px 20px 6px; }
+  .Modal-header h3 { font-size: 1.15em; }
+  .Skylight-studioIcon { color: var(--primary-color); }
+}
+@media (min-width: 768px) {
+  html[data-sky] .ModalManager:has(.Skylight-studio) {
+    // Pinned to the right so the page stays visible beside it.
+    .modal-dialog.Skylight-studio {
+      margin: 68px 20px 20px auto;
+    }
+  }
+  html[data-sky] .ModalManager:has(.Skylight-studio) + .Modal-backdrop,
+  html[data-sky] body:has(.Skylight-studio) .Modal-backdrop {
+    opacity: 0.18 !important;
+  }
+}
+html[data-sky] .Skylight-studioBody {
+  padding: 0 20px 0;
+}
+html[data-sky] .Skylight-studioLead {
+  color: var(--muted-color);
+  margin: 0 0 6px;
+  font-size: 0.92em;
+}
+html[data-sky] .Skylight-studioFoot {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 8px;
+  margin: 0 -20px;
+  padding: 14px 20px;
+  background: var(--sky-pane-solid);
+  border-top: 1px solid var(--sky-hairline);
+  border-radius: 0 0 var(--sky-radius) var(--sky-radius);
+
+  .Button--primary { margin-left: auto; }
+}
+
+// ---- Controls (shared with the admin page) ----
+.Skylight-section {
+  border: 0;
+  margin: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--sky-hairline, var(--control-bg));
+  min-width: 0;
+
+  legend {
+    float: left;
+    width: 100%;
+    margin: 0 0 9px;
+    padding: 0;
+    font-size: 0.78em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted-color);
+  }
+  legend + * { clear: both; }
+}
+.Skylight-seg {
+  display: flex;
+  background: var(--control-bg);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+
+  button {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: var(--control-color);
+    padding: 6px 4px;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  button.on {
+    background: var(--sky-pane-strong, var(--body-bg));
+    color: var(--text-color);
+    box-shadow: 0 1px 3px ~"rgba(0, 0, 0, .14)";
+  }
+}
+.Skylight-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  min-width: 0;
+}
+.Skylight-rowLabel {
+  width: 76px;
+  flex: none;
+  font-weight: 600;
+  font-size: 0.92em;
+  color: var(--control-color);
+}
+.Skylight-row output {
+  width: 48px;
+  text-align: right;
+  color: var(--muted-color);
+  font-variant-numeric: tabular-nums;
+}
+.Skylight-range {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--primary-color);
+}
+.Skylight-swatches {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.Skylight-swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: var(--swatch);
+  color: var(--swatch);
+  box-shadow: inset 0 1px 0 ~"rgba(255, 255, 255, .4)";
+  position: relative;
+
+  &.on { box-shadow: 0 0 0 2px var(--body-bg), 0 0 0 4px currentColor; }
+}
+.Skylight-swatch--custom {
+  background: conic-gradient(#e06666, #e0c066, #66e08a, #66c4e0, #8a66e0, #e066b8, #e06666);
+  color: var(--text-color);
+  overflow: hidden;
+
+  input { opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+}
+.Skylight-bgs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+  gap: 8px;
+}
+.Skylight-bg {
+  aspect-ratio: 1 / 0.8;
+  border-radius: 9px;
+  border: 1px solid var(--sky-hairline, var(--control-bg));
+  position: relative;
+  padding: 0;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 18px;
+
+  span {
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    bottom: -18px;
+    font-size: 0.75em;
+    color: var(--muted-color);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &.on { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+}
+.Skylight-bg--daylight { background: radial-gradient(circle at 10% 0%, #ffd8a8, transparent 60%), radial-gradient(circle at 100% 10%, #a8cdf0, transparent 60%), #eef3f7; }
+.Skylight-bg--mist { background: radial-gradient(circle at 30% 30%, #d9e6f2, transparent 55%), radial-gradient(circle at 80% 70%, #e8dcf2, transparent 55%), #f1f3f6; }
+.Skylight-bg--dusk { background: radial-gradient(circle at 10% 0%, #f2a36b, transparent 60%), radial-gradient(circle at 100% 30%, #6c6fbf, transparent 65%), #2b2f4a; }
+.Skylight-bg--plain { background: var(--body-bg); }
+
+.Skylight-toggles .Checkbox { margin: 6px 0; }
+.Skylight-toggleText small {
+  display: block;
+  color: var(--muted-color);
+  font-size: 0.85em;
+  font-weight: normal;
+}
+.Skylight-note {
+  margin: 8px 0 0;
+  font-size: 0.85em;
+  color: var(--muted-color);
+}
+.Skylight-note--error { color: var(--control-danger-color, #b3261e); }
+.Skylight-share {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+
+  code, .FormControl {
+    flex: 1;
+    min-width: 0;
+  }
+  code {
+    font-weight: 600;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--control-bg);
+    letter-spacing: 0.04em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
