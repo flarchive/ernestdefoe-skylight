@@ -2,13 +2,13 @@
 
 > **Read-only archive of released versions of ernestdefoe/skylight.** Not for installation: use [Packagist](https://packagist.org/packages/ernestdefoe/skylight) or the [upstream repository](https://github.com/ernestdefoe/skylight).
 
-**0** versions archived · Latest: [`1.0.0`](https://github.com/flarchive/ernestdefoe-skylight/tree/archive/v1.0.0) · License: `MIT` · Flarum: `^2.0`
+**1** versions archived · Latest: [`1.0.0`](https://github.com/flarchive/ernestdefoe-skylight/tree/archive/v1.0.0) · License: `MIT` · Flarum: `^2.0`
 
 ## Archived Versions
 
 | Version | Released | Flarum | Source |
 |---|---|---|---|
-| — | — | — | — |
+| `1.0.0` | 2026-11-19 | `^2.0` | [Browse](https://github.com/flarchive/ernestdefoe-skylight/tree/archive/v1.0.0) |
 
 Catalog entry: [packages/ernestdefoe-skylight.json](https://github.com/flarchive/archive-index/blob/main/packages/ernestdefoe-skylight.json)
 
