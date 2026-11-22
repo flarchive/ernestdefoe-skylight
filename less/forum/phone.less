@@ -1,0 +1,112 @@
+// ---------------------------------------------------------------------------
+// Phones. Last, so these beat the unconditional rules above.
+// ---------------------------------------------------------------------------
+
+@media @phone {
+  // A lighter blur: one blurred bar is all a phone pays for.
+  html[data-sky] { --sky-blur-now: 10px; }
+
+  html[data-sky] .WelcomeHero { padding: 22px 0 18px; }
+
+  // Core pulls the list to the screen edges on phones; panes keep the gutter.
+  html[data-sky] .DiscussionList {
+    margin: 0;
+  }
+  html[data-sky] .DiscussionListItem-content {
+    padding: var(--sky-row-y) 8px;
+    align-items: flex-start;
+  }
+  html[data-sky] .DiscussionListItem-title {
+    white-space: normal;
+  }
+  // The counts: one centered column at the row's right edge (the reply count,
+  // and Skylight's views stat when fof/discussion-views is on; see forum/listViews.tsx).
+  html[data-sky] .DiscussionListItem-stats {
+    top: var(--sky-row-y);
+    right: 8px;
+    width: 52px;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  html[data-sky] .DiscussionListItem-main {
+    padding-right: 56px;
+  }
+  html[data-sky] .Skylight-views {
+    font-size: 11px;
+    gap: 3px;
+    white-space: nowrap;
+  }
+  // Core's unread bubble: the accent with its own readable ink (core's #fff
+  // fails on light accents, and the list's muted stats color would win here).
+  html[data-sky] .unread .DiscussionListItem-count {
+    color: var(--button-primary-color);
+  }
+
+  // Cards: one column.
+  html[data-sky][data-sky-view="cards"] .DiscussionList > .DiscussionList-discussions {
+    grid-template-columns: 1fr;
+  }
+  html[data-sky][data-sky-view="cards"] .DiscussionListItem-content {
+    align-items: center;
+    min-height: 0;
+  }
+  html[data-sky][data-sky-view="cards"] .DiscussionListItem-main {
+    padding-right: 0;
+  }
+  html[data-sky][data-sky-view="cards"] .Skylight-views {
+    font-size: inherit;
+  }
+
+  // Compact: title and count only.
+  html[data-sky][data-sky-view="compact"] .DiscussionListItem-content {
+    align-items: center;
+  }
+  html[data-sky][data-sky-view="compact"] .DiscussionListItem-info {
+    display: none;
+  }
+  // One short line: the counts sit in it, side by side.
+  html[data-sky][data-sky-view="compact"] .DiscussionListItem-stats {
+    position: static;
+    width: auto;
+    flex: none;
+    flex-direction: row;
+    gap: 8px;
+  }
+  html[data-sky][data-sky-view="compact"] .DiscussionListItem-main {
+    padding-right: 0;
+  }
+  // A fixed width, so the reply counts line up row to row.
+  html[data-sky][data-sky-view="compact"] .Skylight-views {
+    min-width: 52px;
+  }
+
+  // Posts: panes with an even gutter on both sides.
+  html[data-sky] .PostStream-item:has(+ .PostStream-item) {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+  }
+  html[data-sky] .PostStream-item > .CommentPost,
+  html[data-sky] .PostStream-item > .ReplyPlaceholder {
+    padding: 14px;
+  }
+
+  // The Studio: a bottom sheet.
+  html[data-sky] .modal-dialog.Skylight-studio {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: auto;
+    max-height: 82vh;
+    margin: 0;
+
+    .Modal-content {
+      border-radius: 20px 20px 0 0;
+      max-height: 82vh;
+      overflow: auto;
+    }
+  }
+}
