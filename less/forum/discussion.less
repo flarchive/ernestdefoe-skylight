@@ -1,0 +1,134 @@
+// ---------------------------------------------------------------------------
+// A discussion: the hero, each post on its own pane (no blur), the scrubber.
+// ---------------------------------------------------------------------------
+
+html[data-sky] .DiscussionHero {
+  padding: 30px 0 26px;
+}
+html[data-sky] .DiscussionHero-title {
+  color: var(--heading-color);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+// Posts: a pane each, the divider line replaced by the gap between panes.
+html[data-sky] .PostStream-item:has(+ .PostStream-item)::after {
+  display: none;
+}
+// Density on a discussion: Comfortable leaves a short gap between posts;
+// Compact joins them into one column split by hairlines (below).
+html[data-sky] .PostStream-item + .PostStream-item {
+  margin-top: 8px;
+}
+html[data-sky] .PostStream-item > .CommentPost,
+html[data-sky] .PostStream-item > .ReplyPlaceholder {
+  .sky-pane();
+  padding: var(--post-padding);
+}
+html[data-sky] .PostStream-item > .CommentPost {
+  padding-bottom: 8px;
+}
+// A hidden (deleted) post is dimmed part by part, never the whole pane:
+// opacity on the pane makes it a stacking context, and the post's open menu
+// was trapped under the next pane (or the Reply box below it).
+html[data-sky] .PostStream-item > .CommentPost.Post--hidden {
+  .Post-header,
+  .Post-body,
+  .Post-footer,
+  .Post-side {
+    opacity: 0.85;
+  }
+}
+// Collapsed, it is a one-line strip: even padding so the line, its "…" button
+// and the menu button sit on the strip's middle.
+html[data-sky] .PostStream-item > .CommentPost.Post--hidden:not(.revealContent) {
+  padding-top: 12px;
+  padding-bottom: 12px;
+
+  // Core pulls the floated menu button up 27px, sized for its own padding.
+  .Post-actions {
+    margin-top: -29px;
+
+    @media @phone { margin-top: -34px; }
+  }
+}
+html[data-sky] .PostStream-item > .Post--event {
+  padding-left: var(--post-padding);
+}
+html[data-sky] .ReplyPlaceholder {
+  border: 1px solid var(--sky-pane-border);
+  margin-top: var(--sky-gap);
+  // Core pulls it 20px left of the posts; here it lines up with them.
+  margin-left: 0;
+  width: 100%;
+  color: var(--muted-color);
+}
+// A post you jumped to (a link, a mention) is ringed in the accent.
+html[data-sky] .PostStream-item > .Post.highlighted,
+html[data-sky] .PostStream-item > .Post.flash {
+  box-shadow: var(--sky-shadow), 0 0 0 2px ~"color-mix(in srgb, var(--primary-color) 45%, transparent)";
+}
+
+html[data-sky] .Post-body {
+  line-height: 1.65;
+}
+html[data-sky] .Post-body blockquote {
+  border-left: 3px solid var(--primary-color);
+  background: var(--control-bg);
+  border-radius: 0 var(--sky-radius-sm) var(--sky-radius-sm) 0;
+  color: var(--muted-color);
+}
+html[data-sky] .Post-body code,
+html[data-sky] .Post-body pre {
+  border-radius: 6px;
+}
+html[data-sky] .Post-header .item-user .username {
+  color: var(--heading-color);
+}
+
+// The scrubber: the handle in the accent. On desktop it is an open dropdown
+// menu, so it drops the dropdown's glass.
+html[data-sky] .Scrubber-bar {
+  background: var(--primary-color);
+}
+@media (min-width: 768px) {
+  html[data-sky] .PostStreamScrubber > .Dropdown-menu {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+// ---- Density "compact": the posts as one column, a line between each ----
+html[data-sky][data-sky-density="compact"] {
+  .PostStream-item + .PostStream-item {
+    margin-top: 0;
+  }
+  .PostStream-item > .CommentPost {
+    border-radius: 0;
+    box-shadow: none;
+
+    &::before { display: none; }
+  }
+  .PostStream-item + .PostStream-item > .CommentPost {
+    border-top-color: var(--sky-hairline);
+  }
+  // Round the column's ends: its first post, and a post after anything that
+  // isn't one (an event line); its last, and a post before anything else.
+  .PostStream-item:first-child > .CommentPost,
+  .PostStream-item:not(:has(> .CommentPost)) + .PostStream-item > .CommentPost {
+    border-top-left-radius: var(--sky-radius);
+    border-top-right-radius: var(--sky-radius);
+    border-top-color: var(--sky-pane-border);
+  }
+  .PostStream-item:not(:first-child):not(:has(> .CommentPost)) + .PostStream-item > .CommentPost {
+    margin-top: 8px;
+  }
+  .PostStream-item:not(:has(+ .PostStream-item > .CommentPost)) > .CommentPost {
+    border-bottom-left-radius: var(--sky-radius);
+    border-bottom-right-radius: var(--sky-radius);
+    box-shadow: var(--sky-shadow);
+  }
+}

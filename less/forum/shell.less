@@ -1,0 +1,191 @@
+// ---------------------------------------------------------------------------
+// Panes and the page shell: header, hero, sidebar, toolbar.
+// ---------------------------------------------------------------------------
+
+// A glass pane with Skylight's signature: 1px of daylight along the top,
+// brightest toward the light (top left) and tinted by the accent.
+.sky-pane() {
+  position: relative;
+  background: var(--sky-pane);
+  border: 1px solid var(--sky-pane-border);
+  border-radius: var(--sky-radius);
+  box-shadow: var(--sky-shadow);
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 30%;
+    top: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--sky-edge) 12%, ~"color-mix(in srgb, var(--primary-color) 40%, var(--sky-edge))" 45%, transparent);
+    pointer-events: none;
+  }
+}
+// Real blur: only for the few panes that float over moving content.
+.sky-blur(@amount: var(--sky-blur-now)) {
+  -webkit-backdrop-filter: saturate(1.5) blur(@amount);
+  backdrop-filter: saturate(1.5) blur(@amount);
+}
+
+// ---- Header (desktop .App-header, phone .App-navigation) ----
+html[data-sky] .App-header,
+html[data-sky] .App-navigation {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--sky-hairline);
+  .sky-blur();
+}
+html[data-sky] .scrolled .App-header,
+html[data-sky] .scrolled .App-navigation {
+  box-shadow: 0 6px 24px ~"rgba(20, 40, 70, .08)";
+}
+html[data-sky] .Header-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+html[data-sky] .Header-title a:not(.Button) {
+  color: var(--header-color);
+}
+html[data-sky] .Header-controls .Button,
+html[data-sky] .Header-controls .Dropdown-toggle {
+  border-radius: 999px;
+}
+html[data-sky] .Search-input .FormControl,
+html[data-sky] .Search-input input {
+  border-radius: 999px;
+}
+
+// The Studio button: a soft accent pill.
+html[data-sky] .Skylight-studioButton.Button {
+  color: var(--primary-color);
+  background: var(--sky-tint);
+  border-radius: 999px;
+  font-weight: 600;
+}
+html[data-sky] .Skylight-studioButton.Button:hover,
+html[data-sky] .Skylight-studioButton.Button:focus-visible {
+  background: ~"color-mix(in srgb, var(--primary-color) 18%, transparent)";
+}
+// On a colored header the accent pill would vanish into it: use the header's own colors.
+html[data-sky][data-colored-header="true"] .App-header .Skylight-studioButton.Button {
+  color: var(--header-control-color);
+  background: var(--header-control-bg);
+}
+
+// The phone drawer: core paints it with the header color, which is
+// translucent here; it slides over the page, so it needs a solid pane.
+html[data-sky] .App-drawer {
+  background: var(--sky-pane-solid);
+}
+
+// ---- Heroes ----
+html[data-sky] .Hero {
+  background: transparent;
+  color: var(--text-color);
+  border: 0;
+}
+html[data-sky] .WelcomeHero {
+  text-align: center;
+  padding: 36px 0 30px;
+}
+html[data-sky] .Hero-title {
+  color: var(--heading-color);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+html[data-sky] .Hero-subtitle {
+  color: var(--muted-color);
+}
+html[data-sky] .WelcomeHero .Hero-close {
+  color: var(--muted-color);
+}
+
+// ---- Sidebar (core's sideNav), as one pane ----
+@media (min-width: 768px) {
+  html[data-sky] .sideNav > ul {
+    .sky-pane();
+    .sky-blur();
+    padding: 12px;
+  }
+}
+@media @desktop-up {
+  html[data-sky] .sideNav .item-newDiscussion {
+    margin-bottom: 10px;
+  }
+}
+// Core lays the nav out as one scrolling row on tablets, and on every width on
+// "vertical" pages such as Tags. The pane is that row: it scrolls inside itself
+// (so its glass reaches the last link), as tall as its buttons, and the links'
+// own menu stays clear (no second glass layer inside it).
+.sky-nav-row() {
+  .sideNav {
+    // Core already keeps 15px between the nav and the page below it.
+    padding: 12px 0 0;
+    overflow: visible;
+
+    &::after { display: none; }
+  }
+  .sideNav > ul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+
+    > li { margin: 0; flex: none; }
+  }
+  .sideNav .Dropdown-menu {
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+
+    // Core trims the links' right padding in a row; the active pill needs it.
+    > li > a { padding-right: 10px; }
+  }
+}
+@media @tablet {
+  html[data-sky] { .sky-nav-row(); }
+}
+@media @desktop-up {
+  html[data-sky] .Page--vertical { .sky-nav-row(); }
+}
+html[data-sky] .sideNav .Dropdown-menu > li > a,
+html[data-sky] .sideNav .Dropdown-menu > li > button {
+  border-radius: var(--sky-radius-sm);
+}
+html[data-sky] .sideNav .Dropdown-menu > li.active > a,
+html[data-sky] .sideNav .Dropdown-menu > li.active > button {
+  color: var(--primary-color);
+  background: var(--sky-tint);
+  font-weight: 650;
+}
+
+// ---- Buttons ----
+html[data-sky] .Button {
+  border-radius: var(--sky-radius-sm);
+}
+html[data-sky] .Button--primary {
+  box-shadow: inset 0 1px 0 ~"rgba(255, 255, 255, .25)", 0 4px 14px ~"color-mix(in srgb, var(--primary-color) 28%, transparent)";
+}
+html[data-sky] .Button--primary:disabled,
+html[data-sky] .Button--primary.disabled {
+  box-shadow: none;
+}
+
+// Links inside content. 🚨 html:not(#x-sky) beats themes that color links
+// with `:root:not([data-theme^=dark]) a:not(.Button)` (0,3,1).
+html:not(#x-sky)[data-sky] .Post-body a:not(.Button),
+html:not(#x-sky)[data-sky] .Skylight-note a {
+  color: var(--link-color);
+}
+
+// The page column is a flex item: without this, one wide row (Compact with
+// every tag shown) widens the whole column instead of shortening its title.
+html[data-sky] .Page-content {
+  min-width: 0;
+}
