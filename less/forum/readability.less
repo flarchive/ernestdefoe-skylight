@@ -1,0 +1,98 @@
+// ---------------------------------------------------------------------------
+// Readability and cost: Solid surfaces, Reduce transparency (the Studio switch
+// or the device setting), More contrast, and motion.
+// ---------------------------------------------------------------------------
+
+// Solid panes and no blur: chosen in the Studio, switched on for
+// Reduce transparency, or on a low-memory phone / Save-Data (head script).
+.sky-solid() {
+  --sky-pane: var(--sky-pane-solid);
+  --sky-pane-strong: var(--sky-pane-solid);
+  --header-bg: var(--sky-pane-solid);
+  --sky-blur-now: 0px;
+
+  .App-header, .App-navigation, .sideNav > ul, .Dropdown-menu, .Modal-content, .Composer {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+html[data-sky][data-sky-glass="solid"],
+html[data-sky][data-sky-rt="on"] {
+  .sky-solid();
+}
+@media (prefers-reduced-transparency: reduce) {
+  html[data-sky] {
+    .sky-solid();
+  }
+}
+
+// More contrast: the Studio switch, core's -hc schemes, or the device setting.
+.sky-contrast() {
+  --muted-color: #3f4b5b;
+  --muted-more-color: #4a5666;
+  --discussion-title-color: #222c38;
+  --sky-hairline: ~"rgba(29, 38, 51, .22)";
+  --sky-pane-border: ~"rgba(29, 38, 51, .2)";
+}
+.sky-contrast-dark() {
+  --muted-color: #c4cdd8;
+  --muted-more-color: #b3bdc9;
+  --discussion-title-color: #e0e6ee;
+  --sky-hairline: ~"rgba(255, 255, 255, .2)";
+  --sky-pane-border: ~"rgba(255, 255, 255, .22)";
+}
+html[data-sky][data-sky-hc="on"],
+html[data-sky][data-theme$="-hc"] {
+  .sky-contrast();
+  .sky-solid();
+}
+html[data-sky][data-sky-hc="on"][data-theme^="dark"],
+html[data-sky][data-theme="dark-hc"] {
+  .sky-contrast-dark();
+}
+@media (prefers-contrast: more) {
+  html[data-sky] { .sky-contrast(); }
+  html[data-sky][data-theme^="dark"] { .sky-contrast-dark(); }
+}
+html[data-sky][data-sky-hc="on"] .DiscussionList > .DiscussionList-discussions,
+html[data-sky][data-sky-hc="on"] .PostStream-item > .CommentPost {
+  border-width: 1.5px;
+}
+
+// Motion: the device setting forces "reduced"; "off" removes every transition.
+@media (prefers-reduced-motion: reduce) {
+  html[data-sky] .DiscussionListItem { transition: none !important; transform: none !important; }
+}
+html[data-sky][data-sky-motion="reduced"] .DiscussionListItem {
+  transition: none !important;
+  transform: none !important;
+}
+html[data-sky][data-sky-motion="off"] *,
+html[data-sky][data-sky-motion="off"] *::before,
+html[data-sky][data-sky-motion="off"] *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+// Pane entrance: a 6px fade up on load, only with full motion.
+@keyframes skySettle {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sky][data-sky-motion="full"] .DiscussionList > .DiscussionList-discussions {
+    // 🚨 `backwards`, never `forwards`: a transform that keeps filling after
+    // it ends leaves the pane a stacking context, and menus inside it would
+    // paint under the next pane.
+    animation: skySettle .35s ease backwards;
+  }
+}
+// 🚨 Tablet and up only: on phones the sidebar list holds core's header
+// controls (the title and new-discussion buttons), absolutely positioned
+// against the page. A transform animation on their parent makes it their
+// containing block in Safari, and they drop out of the header.
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+  html[data-sky][data-sky-motion="full"] .sideNav > ul {
+    animation: skySettle .35s ease backwards;
+  }
+}

@@ -1,0 +1,149 @@
+// ---------------------------------------------------------------------------
+// The discussion list (List view, the default): core's rows on one pane.
+// Rows are translucent fills, never blurred: 20 rows add no blur layer.
+// ---------------------------------------------------------------------------
+
+html[data-sky] .IndexPage-toolbar {
+  margin-bottom: 12px;
+}
+
+html[data-sky] .DiscussionList > .DiscussionList-discussions {
+  .sky-pane();
+  padding: 6px;
+  margin: 0;
+}
+html[data-sky] .DiscussionList-discussions:empty {
+  display: none;
+}
+
+// Core pulls each row 15px past the list on both sides (and pads it for the
+// controls); inside a pane, rows sit flush with it instead.
+html[data-sky] .DiscussionListItem {
+  border-radius: var(--sky-radius-sm);
+  margin: 0;
+}
+// Room for the row's controls; on phones they slide out from under the row.
+@media @tablet-up {
+  html[data-sky] .DiscussionListItem {
+    padding-right: 28px;
+  }
+}
+html[data-sky] .DiscussionList-discussions > li + li {
+  border-top: 1px solid var(--sky-hairline);
+}
+html[data-sky] .DiscussionListItem-content {
+  padding: var(--sky-row-y) 12px;
+  gap: var(--sky-gap);
+  align-items: center;
+}
+html[data-sky] .DiscussionListItem-title {
+  font-size: 1.05em;
+}
+html[data-sky] .DiscussionList:not(.DiscussionList--searchResults) .unread .DiscussionListItem-title {
+  color: var(--heading-color);
+  font-weight: 700;
+}
+// Unread: a small accent dot before the title.
+html[data-sky] .DiscussionList:not(.DiscussionList--searchResults) .unread .DiscussionListItem-title::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin: 0 8px 0.15em 0;
+  vertical-align: middle;
+  background: var(--primary-color);
+  box-shadow: 0 0 0 3px ~"color-mix(in srgb, var(--primary-color) 20%, transparent)";
+}
+html[data-sky] .DiscussionListItem-info {
+  font-size: 0.85em;
+}
+html[data-sky] .DiscussionListItem-stats-item {
+  color: var(--muted-color);
+}
+
+// Counts sit side by side in their own column (core stacks them in a 40px
+// column, which a second count such as views overflows).
+@media @tablet-up {
+  html[data-sky] .DiscussionListItem-stats {
+    width: auto;
+    flex: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  html[data-sky] .DiscussionListItem-count {
+    min-width: 42px;
+  }
+  // Wide enough for "999.9K", so the columns line up row to row.
+  html[data-sky] .Skylight-views {
+    min-width: 70px;
+  }
+  // flarum/tags pins the tags 80px from the row's edge, which fits one 40px
+  // count; with views beside it, move them clear of both counts
+  // (28px controls + 12px padding + 42px + 12px gap + 70px + 10px).
+  html[data-sky] .DiscussionListItem:has(.Skylight-views) .DiscussionListItem-info > .item-tags {
+    right: 174px;
+  }
+}
+
+// fof/discussion-views: its count becomes a stat (forum/listViews.tsx), so
+// hide the copy it pins over the row's edge and give back the room it keeps.
+html[data-sky] .DiscussionListItem-content:has(.Skylight-views) {
+  .DiscussionListItem-main {
+    margin-right: 0;
+  }
+  .DiscussionListItem-info > .item-discussion-views {
+    display: none;
+  }
+}
+// Desktop only: on phones core shows the unread count in an accent bubble.
+@media @tablet-up {
+  html[data-sky] .unread .DiscussionListItem-stats-item {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
+}
+
+// Skylight's excerpt is sent for Cards, and for sticky rows, where it takes
+// the place of flarum/sticky's (src/Api/DiscussionFields.php says why).
+html[data-sky] .DiscussionListItem-info .item-skylightExcerpt {
+  display: none;
+}
+html[data-sky] .DiscussionListItem-info:has(> .item-excerpt) {
+  > .item-skylightExcerpt {
+    display: block;
+    margin-top: 4px;
+    white-space: normal;
+    word-break: break-word;
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  > .item-excerpt {
+    display: none;
+  }
+}
+
+html[data-sky] .DiscussionList-loadMore {
+  margin-top: 14px;
+}
+
+// ---- The view switch in the toolbar ----
+html[data-sky] .Skylight-viewSwitch {
+  display: inline-flex;
+  background: var(--control-bg);
+  border-radius: 999px;
+  padding: 2px;
+}
+html[data-sky] .Skylight-viewSwitch .Button {
+  border-radius: 999px;
+  background: transparent;
+  height: 32px;
+  width: 34px;
+  color: var(--control-color);
+}
+html[data-sky] .Skylight-viewSwitch .Button.on {
+  background: var(--sky-pane-strong);
+  color: var(--primary-color);
+  box-shadow: 0 1px 3px ~"rgba(0, 0, 0, .12)";
+}

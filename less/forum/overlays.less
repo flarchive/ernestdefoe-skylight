@@ -1,0 +1,39 @@
+// ---------------------------------------------------------------------------
+// Things that float over moving content get the real blur: dropdowns,
+// modals, the composer.
+// ---------------------------------------------------------------------------
+
+html[data-sky] .Dropdown-menu {
+  background: var(--sky-pane-strong);
+  border: 1px solid var(--sky-pane-border);
+  border-radius: var(--sky-radius-sm);
+  box-shadow: 0 12px 34px ~"rgba(20, 40, 70, .16)";
+  .sky-blur(18px);
+}
+html[data-sky] .Modal-content {
+  .sky-pane();
+  background: var(--sky-pane-strong);
+  .sky-blur(20px);
+}
+html[data-sky] .Modal-footer {
+  background: transparent;
+  border-top: 1px solid var(--sky-hairline);
+}
+html[data-sky] .Composer {
+  border-radius: var(--sky-radius) var(--sky-radius) 0 0;
+}
+html[data-sky] .ComposerBody,
+html[data-sky] .Composer:not(.minimized) {
+  background: var(--sky-pane-strong);
+}
+// 🚨 Tablet and up only: on phones the composer is full screen and holds
+// core's header controls, fixed to the viewport; a backdrop-filter would make
+// the composer their containing block (Safari).
+@media (min-width: 768px) {
+  html[data-sky] .Composer {
+    .sky-blur(20px);
+  }
+}
+html[data-sky] .FormControl {
+  border-radius: var(--sky-radius-sm);
+}
